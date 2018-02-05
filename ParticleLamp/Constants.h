@@ -36,3 +36,8 @@
 #ifndef MAX_Y
 #define MAX_Y (PIXELS_Y * 256 - 1) // Maximum Y coordinate
 #endif
+
+
+#ifndef NUM_PARTICLES
+#define NUM_PARTICLES 1
+#endif

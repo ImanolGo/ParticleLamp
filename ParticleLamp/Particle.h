@@ -22,7 +22,7 @@ public:
 	// constructors
 	Particle();
 
-    void update();
+    void update(float x, float y, float z);
 
     void addForce(float x, float y);
 
@@ -71,8 +71,9 @@ Particle::Particle()
 }
 
 
-void Particle::update()
+void Particle::update(float x, float y, float z)
 {
+    addForce(x, y);
     updateParticle();
     checkEdges();
 }

@@ -29,10 +29,9 @@
 
 uint32_t  prevTime   = 0;      // Used for frames-per-second throttle
 
-
-LedsManager ledsManager;
 MotionManager motionManager;
 ParticlesManager particlesManager;
+LedsManager ledsManager;
 
 
 void setup() {
@@ -41,8 +40,8 @@ void setup() {
     delay(1000);
     Serial.println("Starting Software!!!!");
 
-    particlesManager.setup();
     motionManager.setup();
+    particlesManager.setup();
     ledsManager.setup();
 }
 
@@ -54,7 +53,7 @@ void loop()
     prevTime = t;
 
     motionManager.update();
-    particlesManager.update();
-    ledsManager.update();
+    particlesManager.update(&motionManager);
+    ledsManager.update(&particlesManager);
     
 }

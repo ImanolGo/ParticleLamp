@@ -10,9 +10,9 @@
 #pragma once
 #include "Arduino.h"
 #include "Particle.h"
+#include "MotionManager.h"
 #include "Constants.h"
 
-#define NUM_PARTICLES 20
 
 
 class ParticlesManager{
@@ -22,13 +22,18 @@ class ParticlesManager{
     ParticlesManager();
     
     void setup();
-    void update();
+    void update(MotionManager* motionManager);
+
+    float getX(int index) const;
+    float getY(int index) const;
    
   private:
 
-    void updateParticles();
+    void updateParticles(float x, float y, float z);
     
     Particle particles[NUM_PARTICLES];
+
+    MotionManager* motionManager;   
     
 };
 
@@ -42,19 +47,38 @@ void ParticlesManager::setup()
     ///
 }
 
-void ParticlesManager::update()
+void ParticlesManager::update(MotionManager* motionManager)
 {
-    updateParticles();
+    updateParticles(motionManager->ax, motionManager->ay, motionManager->az);
 }
 
 
-void ParticlesManager::updateParticles()
+void ParticlesManager::updateParticles(float x, float y, float z)
 {
     for(int i=0 ; i<NUM_PARTICLES; i++){
-          particles[i].update();
-    }
-    
+          particles[i].update(x,y,z);
+    }  
 }
+
+
+float ParticlesManager::getX(int index) const
+{
+    if(index <0 || index >=NUM_PARTICLES){
+      return -1;
+    }
+
+    return particles[index].getPosX();
+}
+
+float ParticlesManager::getY(int index) const
+{
+    if(index <0 || index >=NUM_PARTICLES){
+      return -1;
+    }
+
+    return particles[index].getPosY();
+}
+
 
 
 

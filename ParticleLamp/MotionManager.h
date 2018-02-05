@@ -24,6 +24,8 @@ class MotionManager{
     
     void setup();
     void update();
+
+    float ax, ay, az;
    
   private:
 
@@ -32,7 +34,7 @@ class MotionManager{
     NXPMotionSense imu;
     NXPSensorFusion filter;
     
-    float ax, ay, az;
+    //float ax, ay, az;
     float gx, gy, gz;
     float mx, my, mz;
     float roll, pitch, heading;

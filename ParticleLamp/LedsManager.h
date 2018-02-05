@@ -10,6 +10,7 @@
 #pragma once
 #include "Arduino.h"
 #include "FastLED.h"
+#include "ParticlesManager.h"
 #include "Constants.h"
 
 #define NUM_LEDS PIXELS_X*PIXELS_Y
@@ -23,11 +24,12 @@ class LedsManager{
     LedsManager();
     
     void setup();
-    void update();
+    void update(ParticlesManager* particlesManager);
    
   private:
 
     void updateLightPattern();
+    void updateLightParticles(ParticlesManager* particlesManager);
     void setupLeds();
     void initMatrix();
     void fade(void);     //devide each pixel by half
@@ -64,9 +66,11 @@ void LedsManager::setupLeds()
 }
 
 
-void LedsManager::update()
+void LedsManager::update(ParticlesManager* particlesManager)
 {
-    updateLightPattern();
+    fadeBy(3);
+    //updateLightPattern();
+    updateLightParticles(particlesManager);
 }
 
 
@@ -86,10 +90,24 @@ void LedsManager::initMatrix()
     }
 }
 
+
+void LedsManager::updateLightParticles(ParticlesManager* particlesManager)
+{
+      for(int i = 0; i< NUM_PARTICLES; i++){
+          int x = particlesManager->getX(i);
+          int y = particlesManager->getY(i);
+
+           int index = matrixIndex[x][y];
+           leds[index] = CRGB::Red;
+      }
+
+      FastLED.show();
+}
+
 void LedsManager::updateLightPattern()
 {
-    fade();
-    //fadeBy(100);
+    //fade();
+    //fadeBy(3);
     int numLEDS = NUM_LEDS;
     int j = count/PIXELS_Y;
     int i = count%PIXELS_Y;
@@ -115,16 +133,28 @@ void LedsManager::fade(void)
     
 }
 
-
 void LedsManager::fadeBy(byte amount)
 {
     for (int i = 0; i < NUM_LEDS; i++) 
     {
-        leds[i].r = leds[i].r < amount ? 0 : leds[i].r - amount;
-        leds[i].g = leds[i].g < amount ? 0 : leds[i].g - amount;
-        leds[i].b = leds[i].b < amount ? 0 : leds[i].b - amount;
+        leds[i].r = leds[i].r>>amount;
+        leds[i].g = leds[i].g>>amount;
+        leds[i].b = leds[i].b>>amount;
     }
     
 }
+
+
+
+//void LedsManager::fadeBy(byte amount)
+//{
+//    for (int i = 0; i < NUM_LEDS; i++) 
+//    {
+//        leds[i].r = leds[i].r < amount ? 0 : leds[i].r - amount;
+//        leds[i].g = leds[i].g < amount ? 0 : leds[i].g - amount;
+//        leds[i].b = leds[i].b < amount ? 0 : leds[i].b - amount;
+//    }
+//    
+//}
 
 
