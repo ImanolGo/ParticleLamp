@@ -26,9 +26,10 @@ public:
 
     void addForce(float x, float y);
 
-    float getPosX() const {return x;}
+ public:
 
-    float getPosY() const  {return y;}
+    float x; 
+    float y; 
 
  private:
 
@@ -37,8 +38,7 @@ public:
  	void checkEdges();
 
 
- 	float x; 
- 	float y; 
+
  	float vel_x;
  	float vel_y;
  	float acc_x; 
@@ -65,9 +65,9 @@ Particle::Particle()
  	acc_x= 0;
  	acc_y= 0;
  	mass = 1.0;
-	bounce = 1.0;
+	bounce = 0.4;
 	topSpeed = 20;
-	offset = 2;
+	offset = 0.1;
 }
 
 

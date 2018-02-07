@@ -68,7 +68,7 @@ void LedsManager::setupLeds()
 
 void LedsManager::update(ParticlesManager* particlesManager)
 {
-    fadeBy(3);
+    fadeBy(1);
     //updateLightPattern();
     updateLightParticles(particlesManager);
 }

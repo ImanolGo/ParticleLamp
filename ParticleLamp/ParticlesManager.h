@@ -30,6 +30,8 @@ class ParticlesManager{
   private:
 
     void updateParticles(float x, float y, float z);
+
+    void setupParticles();
     
     Particle particles[NUM_PARTICLES];
 
@@ -44,17 +46,30 @@ ParticlesManager::ParticlesManager()
 
 void ParticlesManager::setup()
 {
-    ///
+    setupParticles();
+}
+
+
+void ParticlesManager::setupParticles()
+{
+    for(int i=0; i<NUM_PARTICLES; i++){
+        particles[i].x = random(PIXELS_X);
+        particles[i].y = random(PIXELS_Y);
+    }
 }
 
 void ParticlesManager::update(MotionManager* motionManager)
 {
-    updateParticles(motionManager->ax, motionManager->ay, motionManager->az);
+    updateParticles(0.07*motionManager->ax, 0.07*motionManager->ay, 0.07*motionManager->az);
 }
 
 
 void ParticlesManager::updateParticles(float x, float y, float z)
 {
+    z = abs(z) ;
+    x = x + random(10*z);                         // Subtract motion factor from X, Y
+    y = y + random(10*z);     
+    
     for(int i=0 ; i<NUM_PARTICLES; i++){
           particles[i].update(x,y,z);
     }  
@@ -67,7 +82,7 @@ float ParticlesManager::getX(int index) const
       return -1;
     }
 
-    return particles[index].getPosX();
+    return particles[index].x;
 }
 
 float ParticlesManager::getY(int index) const
@@ -76,7 +91,7 @@ float ParticlesManager::getY(int index) const
       return -1;
     }
 
-    return particles[index].getPosY();
+    return particles[index].y;
 }
 
 

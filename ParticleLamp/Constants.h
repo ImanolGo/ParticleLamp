@@ -39,5 +39,5 @@
 
 
 #ifndef NUM_PARTICLES
-#define NUM_PARTICLES 1
+#define NUM_PARTICLES 10
 #endif
