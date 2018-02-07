@@ -51,12 +51,12 @@ void LedsManager::setup()
     setupLeds();
     initMatrix();
     
-    Serial.println("LightManager::setup");
+    Serial.println("LedsManager::setup");
 }
 
 void LedsManager::setupLeds()
 {
-    Serial.print("LightManager::setupLeds -> Num LEDs: ");Serial.println(NUM_LEDS);
+    Serial.print("LedsManager::setupLeds -> Num LEDs: ");Serial.println(NUM_LEDS);
     FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
     pinMode(7, OUTPUT);
     digitalWrite(7, HIGH);  // enable access to LEDs

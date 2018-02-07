@@ -19,8 +19,8 @@ class Particle {
 
 public:
 
-	// constructors
-	Particle();
+  // constructors
+  Particle();
 
     void update(float x, float y, float z);
 
@@ -33,23 +33,28 @@ public:
 
  private:
 
- 	void updateParticle();
+  void updateParticle();
 
- 	void checkEdges();
+  void checkEdges();
 
 
 
- 	float vel_x;
- 	float vel_y;
- 	float acc_x; 
- 	float acc_y; 
+  float vel_x;
+  float vel_y;
+  float acc_x; 
+  float acc_y; 
 
- 	float mass;
-	float topSpeed;
-	float bounce;
-	float offset;
+  float mass;
+  float topSpeed;
+  float bounce;
+  float offset;
 
-	CRGB color;
+  float wall_restitution;
+  float collide_restitution;
+  float progression;
+  float gravity;
+
+  CRGB color;
 
 };
 
@@ -59,15 +64,20 @@ public:
 Particle::Particle()
 {
     x = 0; //left
- 	y = 0; //top
- 	vel_x= 0;
- 	vel_y= 0;
- 	acc_x= 0;
- 	acc_y= 0;
- 	mass = 1.0;
-	bounce = 0.4;
-	topSpeed = 20;
-	offset = 0.1;
+  y = 0; //top
+  vel_x= 0;
+  vel_y= 0;
+  acc_x= 0;
+  acc_y= 0;
+  mass = 1.0;
+  bounce = 0.4;
+  topSpeed = 20;
+  offset = 0.1;
+
+  collide_restitution = 0.59f;
+  wall_restitution =  -0.79f;
+  progression = 0.75f;
+  gravity = 0.14f;
 }
 
 
@@ -87,34 +97,44 @@ void Particle::addForce(float x, float y)
 
 void Particle::updateParticle()
 {
-	vel_x+=acc_x;
-	vel_y+=acc_y;
+  vel_x+=  gravity*acc_x;
+  vel_y+= gravity*acc_y;
 
-	x+=vel_x;
-	y+=vel_y;
+  x+=vel_x;
+  y+=vel_y;
 
-	acc_x= 0;
- 	acc_y= 0;
+  acc_x= 0;
+  acc_y= 0;
 
 }
 
 void Particle::checkEdges() {
-	
-	if (y > PIXELS_Y) {
-		vel_y *= -bounce;
-		y = PIXELS_Y - offset;
-	}
 
-	if (y < 0.0) {
-		vel_y *= -bounce;
-		y = offset;
-	}
-	if (x > PIXELS_X) {
-		vel_x *= -bounce;
-		x = PIXELS_X - offset;
-	}
-	if (x < 0.0) {
-		vel_x *= -bounce;
-		x = offset;
-	}
+   if (x > PIXELS_X) {
+      vel_x *= wall_restitution;
+      vel_y *= progression;
+      x = PIXELS_X - offset;
+    }
+  
+    if (x < 0.0) {
+      vel_x *= wall_restitution;
+      vel_y *= progression;
+      x = offset;
+    }
+  
+    if (y > PIXELS_Y) {
+      y = PIXELS_Y - offset;
+      vel_y *= wall_restitution;
+      vel_x *= progression;
+    }
+
+  if (y < 0.0) {
+     y = offset;
+     vel_y *= wall_restitution;
+     vel_x *= progression;
+  }
+  
+
+
+  
 }

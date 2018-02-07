@@ -41,3 +41,10 @@
 #ifndef NUM_PARTICLES
 #define NUM_PARTICLES 10
 #endif
+
+#ifndef NUM_PARTICLES
+#define NUM_PARTICLES 10
+#endif
+
+
+

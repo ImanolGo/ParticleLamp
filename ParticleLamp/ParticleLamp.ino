@@ -29,6 +29,8 @@
 
 uint32_t  prevTime   = 0;      // Used for frames-per-second throttle
 
+uint32_t count = 0;
+
 MotionManager motionManager;
 ParticlesManager particlesManager;
 LedsManager ledsManager;
@@ -52,8 +54,12 @@ void loop()
     while(((t = micros()) - prevTime) < (1000000L / MAX_FPS));
     prevTime = t;
 
+    count++;
+    Serial.print("Count: ");  Serial.println(count);
+    
+
     motionManager.update();
-    particlesManager.update(&motionManager);
-    ledsManager.update(&particlesManager);
+   particlesManager.update(&motionManager);
+   ledsManager.update(&particlesManager);
     
 }
